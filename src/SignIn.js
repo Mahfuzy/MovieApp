@@ -49,7 +49,6 @@ const handleClick = () => {
 
     return ( 
         <div className="signInPage">
-            <Navbar/>
             <div className="signIn">
                 <form onSubmit={FormLogin}>
                     <h2>Sign In</h2>

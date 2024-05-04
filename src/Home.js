@@ -7,6 +7,7 @@ import UpComingSlider from './UpComingSection';
 import "slick-carousel/slick/slick.css";
 import Slider from 'react-slick';
 
+
 const Home = () => {
     const [movies, setMovies] = useState([]);
     const [backgroundImage, setBackgroundImage] = useState('');
@@ -16,7 +17,7 @@ const Home = () => {
     }, []);
 
     const fetchMovies = () => {
-        fetch(`https://api.themoviedb.org/3/discover/movie?&page=1&sort_by=popularity.desc&api_key=6a5902d7453bd8f30c5b9881d0fc6aca`)
+        fetch(`https://api.themoviedb.org/3/discover/movie?&page=1&api_key=6a5902d7453bd8f30c5b9881d0fc6aca`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
@@ -48,8 +49,13 @@ const Home = () => {
         }
     };
 
+
     return (
         <div className='text-white bg-slate-900'>
+            <div className='flex p-4 rounded-lg gap-4 text-white bg-blue-900'>
+                <Link to='/'>Movies</Link>
+                <Link to='/tv-shows'>Tv Shows</Link>
+            </div>
             <div className="container h-[100vh]" style={{ backgroundImage, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }}>
                 <h1>Discover</h1>
                 <ul>
@@ -80,5 +86,6 @@ const Home = () => {
         </div>
     );
 };
+
 
 export default Home;

@@ -53,7 +53,7 @@ const TopRatedSlider = () => {
           ))}
         </Slider>
         <div className="text-center mt-4">
-            <Link className="font-bold" to="/popular">See All</Link>
+            <Link className="font-bold" to="/toprated">See All</Link>
         </div>
       </div>
     </>

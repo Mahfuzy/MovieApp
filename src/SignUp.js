@@ -62,7 +62,6 @@ const SignUp = () => {
   // JSX for sign up form
   return (
     <div className="signInPage">
-      <Navbar/>
       <div className="signIn">
         <form onSubmit={FormSignUp}>
           <h2>Sign Up</h2>

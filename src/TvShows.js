@@ -41,13 +41,8 @@ const TvShows = () => {
     };
 
     return (
-        <div className='text-white bg-slate-900'>
-            <div className='flex items-center justify-between py-2'>
-                <Navbar />
-                <SearchBar handleSearch={handleSearch} />
-            </div>
-            
-            <div className="container mt-8">
+        <div className='text-white bg-slate-900'>  
+            <div className="container">
                 <ul className='grid grid-cols-5 gap-4'>
                     {searchResults.map(show => (
                         <Link to={`/shows/${show.id}`} key={show.id}>

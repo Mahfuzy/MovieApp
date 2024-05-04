@@ -10,13 +10,15 @@ import MoviesDetails from './MoviesDetails';
 import Categories from './Category';
 import CategoryDetails from './CategoryDetails';
 import PrivateRoute from './PrivateRoute';
-import TvShows from './TvShows';
 import TvShowsDetails from './TvShowsDetails';
 import Navbar from './Navbar';
 import PopularMovies from './Popular';
 import TopRatedMovies from './TopRated';
 import UpcomingMovies from './UpComing';
 import NowPlayingMovies from './NowPlaying';
+import TvShows from './TvShows';
+import TvDisplay from './TvDisplay';
+
 
 function App() {
   return (
@@ -43,6 +45,7 @@ function App() {
             <PrivateRoute exact path='/toprated/' component={TopRatedMovies}/>
             <PrivateRoute exact path='/upcoming/' component={UpcomingMovies}/>
             <PrivateRoute exact path='/nowplaying/' component={NowPlayingMovies}/>
+            <PrivateRoute exact path='/tv-shows/' component={TvDisplay}/>
 
             {/* Redirect to home for unknown routes */}
           </Switch>
