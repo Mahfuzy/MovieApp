@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { auth } from "./Firebase";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import Navbar from "./Navbar";
 
 
 const SignIn = () => {
@@ -28,7 +27,7 @@ const FormLogin = async(e) => {
     try {
         await auth.signInWithEmailAndPassword(email, password);
         console.log("Logged in: ", auth.currentUser);
-        history.push('/movies');
+        history.push('/');
     } catch (error) {
         console.error("Sign-in error",error.message);
         

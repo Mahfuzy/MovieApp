@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { auth } from "./Firebase";
 import { useHistory } from "react-router-dom";
-import Navbar from "./Navbar";
 
 const SignUp = () => {
   const [active, isActive] = useState(null)
@@ -45,7 +44,7 @@ const SignUp = () => {
       alert('A verification link has been sent to your email. Please verify your email to complete the registration.')
       window.localStorage.setItem('emailForRegistration', email);
       console.log("user signed up: ", userCredential.user);
-      history.push("/movies");
+      history.push("/");
     } catch(error) {
         console.error('Sign up error: ', error.message);
     }
