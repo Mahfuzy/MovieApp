@@ -54,6 +54,7 @@ const PopularSlider = () => {
                 <p>{show.name}</p>
               </Link>
               <FavoriteButton movieId={show.id} media_type={'tv'}/>
+              <WatchListButton movieId={show.id} media_type={'tv'}/>
             </div>
           ))}
         </Slider>

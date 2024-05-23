@@ -5,10 +5,8 @@ import PopularSection from '../../components/Movies_component/PopularSection';
 import NowPlayingSection from '../../components/Movies_component/NowPlayingSection';
 import UpComingSection from '../../components/Movies_component/UpComingSection';
 import Slider from 'react-slick';
-import FavoriteButton from '../Buttons/FavoritesButton';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import WatchListButton from '../Buttons/WatchlistButton';
 
 const Home = () => {
     const [movies, setMovies] = useState([]);

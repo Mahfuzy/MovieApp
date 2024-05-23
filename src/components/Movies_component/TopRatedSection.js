@@ -2,15 +2,11 @@ import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import FavoriteButton from "../Buttons/FavoritesButton";
-import WatchListButton from "../Buttons/WatchlistButton";
 
 
 
 const TopRatedSlider = () => {
   const [movies, setMovies] = useState([]);
-  const history = useHistory();
 
   useEffect(() => {
     fetchMovies();

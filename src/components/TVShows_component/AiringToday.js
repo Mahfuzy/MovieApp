@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import FavoriteButton from '../Buttons/FavoritesButton';
 import WatchListButton from '../Buttons/WatchlistButton';
 
@@ -8,7 +7,6 @@ const AiringTodayTVShows = () => {
     const [tvShows, setTVShows] = useState([]);
     const [page, setPage] = useState(1);
     const [isPending, setIsPending] = useState(false);
-    const history = useHistory()
 
     useEffect(() => {
         fetchAiringTodayTVShows();

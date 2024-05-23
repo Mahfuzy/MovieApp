@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import FavoriteButton from '../Buttons/FavoritesButton';
 import WatchListButton from '../Buttons/WatchlistButton';
 
@@ -8,7 +7,6 @@ const PopularMovies = () => {
     const [movies, setMovies] = useState([]);
     const [page, setPage] = useState(1);
     const [isPending, setIsPending] = useState(false);
-    const history = useHistory();
 
     useEffect(() => {
         fetchPopularMovies();
@@ -54,7 +52,7 @@ const PopularMovies = () => {
                             </li>
                         </Link>
                         <FavoriteButton movieId={movie.id} media_type={'movie'}/>
-                        <FavoriteButton movieId={movie.id} media_type={'movie'}/>
+                        <WatchListButton movieId={movie.id} media_type={'movie'}/>
                         </div>
                         
                     ))}

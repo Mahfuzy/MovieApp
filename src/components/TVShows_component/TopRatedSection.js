@@ -54,6 +54,8 @@ const TopRatedSlider = () => {
                   
                 </figure>
                 <p>{show.name}</p>
+                <FavoriteButton movieId={show.id} media_type={'tv'}/>
+                <WatchListButton movieId={show.id} media_type={'tv'}/>
               </Link>
               
             </div>

@@ -54,6 +54,7 @@ const PopularTVShows = () => {
                             </li>
                         </Link>
                         <FavoriteButton movieId={tvShow.id} media_type={'tv'}/>
+                        <WatchListButton movieId={tvShow.id} media_type={'tv'}/>
                         </div>
                         
                     ))}

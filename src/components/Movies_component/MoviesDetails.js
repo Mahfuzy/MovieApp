@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Slider from 'react-slick';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { Link, useHistory } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import FavoriteButton from '../Buttons/FavoritesButton';
 import WatchListButton from '../Buttons/WatchlistButton';
 

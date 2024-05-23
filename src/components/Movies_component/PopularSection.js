@@ -1,17 +1,15 @@
 // https://api.themoviedb.org/3/movie/popular?language=en-US&page=1
 
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-import FavoriteButton from "../Buttons/FavoritesButton";
-import WatchListButton from "../Buttons/WatchlistButton";
+
 
 
 
 const PopularSlider = () => {
   const [movies, setMovies] = useState([]);
-  const history = useHistory();
 
   useEffect(() => {
     fetchMovies();

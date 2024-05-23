@@ -1,7 +1,6 @@
 // AiringTodaySlider.js
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import FavoriteButton from "../Buttons/FavoritesButton";
@@ -9,7 +8,6 @@ import WatchListButton from "../Buttons/WatchlistButton";
 
 const AiringTodaySlider = () => {
   const [shows, setShows] = useState([]);
-  const history = useHistory()
 
   useEffect(() => {
     fetchShows();
@@ -56,6 +54,7 @@ const AiringTodaySlider = () => {
                 <p>{show.name}</p>
               </Link>
               <FavoriteButton movieId={show.id} media_type={'tv'}/>
+              <WatchListButton movieId={show.id} media_type={'tv'}/>
             </div>
           ))}
         </Slider>

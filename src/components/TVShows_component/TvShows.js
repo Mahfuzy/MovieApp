@@ -5,8 +5,6 @@ import TopRatedSection from './TopRatedSection';
 import PopularSection from './PopularSection';
 import AiringTodaySection from './AiringTodaySection';
 import OnAirSection from '../../components/TVShows_component/OnAirSection';
-import FavoriteButton from '../Buttons/FavoritesButton';
-import WatchListButton from '../Buttons/WatchlistButton';
 
 const TvShows = () => {
     const [tvShows, setTVShows] = useState([]);

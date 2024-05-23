@@ -8,7 +8,6 @@ const NowPlayingMovies = () => {
     const [movies, setMovies] = useState([]);
     const [page, setPage] = useState(1);
     const [isPending, setIsPending] = useState(false);
-    const history = useHistory();
 
     useEffect(() => {
         fetchNowPlayingMovies();

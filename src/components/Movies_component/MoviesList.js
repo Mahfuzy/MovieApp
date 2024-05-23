@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const MoviesList = () => {
     const [movies, setMovies] = useState([]);
     const [page, setPage] = useState(1);
     const [isPending, setIsPending] = useState(false);
-    const history = useHistory();
 
     useEffect(() => {
         fetchMovies();
@@ -34,7 +32,7 @@ const MoviesList = () => {
     const nextPage = () => {
         setPage(page + 1);
     };
-    
+
     return (
         <div className='text-white bg-slate-900'>
             {isPending && <div className="loader-container"><div className="loader"></div></div>}

@@ -42,7 +42,7 @@ const Navbar = () => {
       <div className="container mx-auto py-4 px-2 flex justify-between items-center">
         <div className="flex items-center">
           <Link to="/" className="text-2xl font-bold mr-4">
-            Your Logo
+            Logo
           </Link>
           <nav className="hidden md:flex items-center space-x-8">
             <ul className="flex space-x-4">
