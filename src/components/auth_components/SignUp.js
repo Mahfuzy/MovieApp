@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { auth } from "./Firebase";
-import { useHistory } from "react-router-dom";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +9,7 @@ const SignUp = () => {
     password: "",
     re_password: "",
   });
-  const [errors, setErrors] = useState({}); // New state for holding error messages
+  const [errors, setErrors] = useState({}); // State for holding error messages
 
   const { email, username, password, re_password } = formData;
 
@@ -19,7 +18,7 @@ const SignUp = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-  }
+  };
 
   const history = useHistory();
 
@@ -39,16 +38,9 @@ const SignUp = () => {
       await userCredential.user.updateProfile({
         displayName: username
       });
-      const actionCodeSettings = {
-        url: 'http://localhost:3000', // Change this to your redirect URL
-        handleCodeInApp: true,
-      };
-      await auth.sendSignInLinkToEmail(email, actionCodeSettings);
-      alert('A verification link has been sent to your email. Please verify your email to complete the registration.')
-      window.localStorage.setItem('emailForRegistration', email);
       console.log("user signed up: ", userCredential.user);
       history.push("/");
-    } catch(error) {
+    } catch (error) {
       console.error('Sign up error: ', error.message);
     }
   };

@@ -40,7 +40,7 @@ const FavoritesPage = () => {
         <div className="flex flex-col items-center px-4 py-8 space-y-8">
             <section className="w-full">
                 <h1 className="text-xl font-bold mb-4">Favorite Movies</h1>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     {favoriteMovies.map(movie => (
                         <div key={movie.id} className="flex flex-col shadow-md rounded overflow-hidden">
                             <Link to={`/movie/${movie.id}`}>
@@ -59,7 +59,7 @@ const FavoritesPage = () => {
 
             <section className="w-full">
                 <h1 className="text-xl font-bold mb-4">Favorite TV Shows</h1>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     {favoriteTVShows.map(show => (
                         <div key={show.id} className="flex flex-col shadow-md rounded overflow-hidden">
                             <Link to={`/tv/${show.id}`}>    
