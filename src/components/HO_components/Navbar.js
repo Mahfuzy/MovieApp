@@ -39,7 +39,7 @@ const Navbar = () => {
 
   return (
     <header className="bg-gray-800 text-white py-4 shadow-md">
-      <div className="container mx-auto py-4 px-2 flex justify-between items-center">
+      <div className="container mx-auto p-2 flex justify-between items-center">
         <div className="flex items-center">
           <Link to="/" className="text-2xl font-bold mr-4">
             Logo
@@ -67,16 +67,6 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/profile" className="hover:text-gray-400">
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="hover:text-gray-400">
-                  About
-                </Link>
-              </li>
-              <li>
                 <Link
                   to={location.pathname === '/' ? '/tv-shows' : '/'}
                   className="hover:text-gray-400"
@@ -84,6 +74,25 @@ const Navbar = () => {
                   {location.pathname === '/' ? 'See TV Shows' : 'See Movies'}
                 </Link>
               </li>
+              {/* Adjusted conditional rendering */}
+              {user ? (
+                <li>
+                  <SignOut />
+                </li>
+              ) : (
+                <>
+                  <li>
+                    <Link to="/login" >
+                      Login
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/signup" >
+                      Sign Up
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
             {/* Include Search component for big screens */}
             <Search onSearchSubmit={handleSearchSubmit} />
@@ -135,21 +144,8 @@ const Navbar = () => {
                 Watchlist
               </Link>
             </li>
-            <li>
-              <Link to="/profile" onClick={closeMobileMenu}>
-                Profile
-              </Link>
-            </li>
-            <li>
-              <Link to="/about" onClick={closeMobileMenu}>
-                About
-              </Link>
-            </li>
+            {/* Adjusted conditional rendering */}
             {user ? (
-              <li>
-                <SignOut onClick={closeMobileMenu} />
-              </li>
-            ) : (
               <>
                 <li>
                   <Link to="/login" onClick={closeMobileMenu}>
@@ -162,6 +158,10 @@ const Navbar = () => {
                   </Link>
                 </li>
               </>
+            ) : (
+              <li>
+                <SignOut onClick={closeMobileMenu} />
+              </li>
             )}
             <li>
               <Link

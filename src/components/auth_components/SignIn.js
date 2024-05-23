@@ -1,40 +1,49 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { auth } from "./Firebase";
-import { useHistory } from "react-router-dom";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
-  const [errors, setErrors] = useState({}); // New state for holding error messages
+  const [error, setError] = useState(null); // New state for holding error message
 
   const { email, password } = formData;
 
   const onChange = (e) => {
     setFormData({
-     ...formData,
+      ...formData,
       [e.target.name]: e.target.value
     });
-  }
+  };
 
   const history = useHistory();
 
   const FormLogin = async (e) => {
     e.preventDefault();
-    let tempErrors = {}; // Temporary object to hold errors
+
     try {
       await auth.signInWithEmailAndPassword(email, password);
       console.log("Logged in: ", auth.currentUser);
       history.push('/');
     } catch (error) {
-      tempErrors.loginFailed = error.message;
-      setErrors(tempErrors); // Update errors state if any
-      console.error("Sign-in error", error.message);
+      let errorMessage;
+      switch (error.code) {
+        case 'auth/user-not-found':
+          errorMessage = "No user found with this email. Please sign up.";
+          break;
+        case 'auth/wrong-password':
+          errorMessage = "Incorrect password. Please try again.";
+          break;
+        default:
+          errorMessage = "Please sign up if you do not have an account.";
+          break;
+      }
+      setError(errorMessage);
+      console.error("Sign-in error:", error);
     }
   };
-
 
   return (
     <div className="signInPage bg-gray-100 min-h-screen flex items-center justify-center">
@@ -52,7 +61,6 @@ const SignIn = () => {
               value={email}
               onChange={onChange}
             />
-            {errors.email && <p className="text-red-600 text-xs mt-1">{errors.email}</p>}
           </div>
           <div className="mb-4">
             <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password</label>
@@ -66,7 +74,7 @@ const SignIn = () => {
               onChange={onChange}
               minLength="6"
             />
-            {errors.loginFailed && <p className="text-red-600 text-xs mt-1">{errors.loginFailed}</p>}
+            {error && <p className="text-red-600 text-xs mt-1">{error}</p>}
           </div>
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
             Sign In

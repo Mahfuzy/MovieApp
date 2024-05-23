@@ -25,9 +25,21 @@ const SignUp = () => {
   const FormSignUp = async (e) => {
     e.preventDefault();
     let tempErrors = {}; // Temporary object to hold errors
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      tempErrors.email = "Invalid email address";
+    }
+
+    // Password validation
     if (password !== re_password) {
       tempErrors.passwordsMatch = 'Passwords do not match';
     }
+    if (password.length < 6) {
+      tempErrors.passwordLength = "Password must be at least 6 characters long";
+    }
+
     if (Object.keys(tempErrors).length > 0) {
       setErrors(tempErrors); // Update errors state if any
       return; // Exit early if there are errors
@@ -89,6 +101,7 @@ const SignUp = () => {
               onChange={onChange}
               minLength="6"
             />
+            {errors.passwordLength && <p className="text-red-600 text-xs mt-1">{errors.passwordLength}</p>}
             {errors.passwordsMatch && <p className="text-red-600 text-xs mt-1">{errors.passwordsMatch}</p>}
           </div>
           <div className="mb-4">
