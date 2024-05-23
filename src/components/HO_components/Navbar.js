@@ -67,16 +67,6 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/profile" className="hover:text-gray-400">
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="hover:text-gray-400">
-                  About
-                </Link>
-              </li>
-              <li>
                 <Link
                   to={location.pathname === '/' ? '/tv-shows' : '/'}
                   className="hover:text-gray-400"
