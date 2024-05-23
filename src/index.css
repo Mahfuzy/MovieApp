@@ -4,6 +4,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 
+.pop-out {
+    transform: scale(1.1); /* You can adjust the scale factor as needed */
+    transition: transform 0.3s ease-in-out; /* Add transition for smooth animation */
+}
 
 
 .loader-container {
@@ -32,5 +36,10 @@
     to {
         transform: rotate(1turn);
     }
+}
+
+.active-slide img {
+    transform: scale(1.1); /* Example transformation */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
