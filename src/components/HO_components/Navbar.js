@@ -125,16 +125,6 @@ const Navbar = () => {
                 Watchlist
               </Link>
             </li>
-            <li>
-              <Link to="/profile" onClick={closeMobileMenu}>
-                Profile
-              </Link>
-            </li>
-            <li>
-              <Link to="/about" onClick={closeMobileMenu}>
-                About
-              </Link>
-            </li>
             {user ? (
               <li>
                 <SignOut onClick={closeMobileMenu} />
