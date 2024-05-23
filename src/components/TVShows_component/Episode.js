@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Loader from '../Buttons/Loader';
 
 const Episode = () => {
     const { id, seasonNumber, episodeNumber } = useParams();
     const [episodeData, setEpisodeData] = useState(null);
     const [videoData, setVideoData] = useState([]);
     const [imageUrl, setImageUrl] = useState(null); // State for storing episode image URL
+    const [isLoading, setIsLoading] = useState(true); // State to track loading state
 
     useEffect(() => {
         const fetchEpisodeData = async () => {
@@ -40,11 +42,19 @@ const Episode = () => {
         fetchVideoData();
     }, [id, seasonNumber, episodeNumber]);
 
+    useEffect(() => {
+        // Hide the loader when episodeData and videoData are fetched
+        if (episodeData && videoData.length > 0) {
+            setIsLoading(false);
+        }
+    }, [episodeData, videoData]);
+
     return (
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-2xl font-bold mb-4">Episode {episodeNumber} of Season {seasonNumber}</h1>
-            {episodeData ? (
-                
+            {isLoading ? ( // Display Loader component while loading
+                <Loader />
+            ) : episodeData ? (
                 <div>
                     <div>
                         {videoData && videoData.map(video => (
@@ -61,17 +71,14 @@ const Episode = () => {
                                             allowFullScreen
                                         ></iframe>
                                     </div>
-                                ) : (
-                                    // If there is no trailer, display episode image
-                                    <img src={imageUrl} alt={`Episode ${episodeNumber}`} className="w-full max-w-lg" />
-                                )}
+                                ) : null}
                             </div>
                         ))}
                     </div>
+                    <img src={imageUrl} alt={`Episode ${episodeNumber}`} className="w-full max-w-lg" />
                     <h2 className="text-lg font-semibold mb-2">{episodeData.name}</h2>
                     <p className="mb-2">Air Date: {episodeData.air_date}</p>
                     <p>{episodeData.overview}</p>
-                    
                 </div>
             ) : (
                 <p>Loading...</p>

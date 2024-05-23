@@ -5,7 +5,6 @@ import SignUp from './components/auth_components/SignUp';
 import PasswordResetForm from './components/auth_components/PasswordReset';
 import ResetPasswordConfirm from './components/auth_components/ResetPasswordConfirm';
 import Activate from './components/auth_components/Activate';
-import MoviesList from './components/Movies_component/MoviesList';
 import MoviesDetails from './components/Movies_component/MoviesDetails';
 import Categories from './components/category_component/Category';
 import CategoryDetails from './components/category_component/CategoryDetails';
@@ -43,7 +42,7 @@ function App() {
             <Route exact path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
             <Route exact path='/activate/:uid/:token' component={Activate} />
             <Route exact path='/tv-shows/' component={TvShows}/>
-            <Route exact path='/movies' component={MoviesList} />
+  
             <Route exact path='/categories' component={Categories} />
             <Route exact path='/categories/:genre' component={CategoryDetails} />
             <Route path="/search/:query" component={SearchResults} />

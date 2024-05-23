@@ -1,19 +1,21 @@
-// AiringTodaySlider.js
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import FavoriteButton from "../Buttons/FavoritesButton";
 import WatchListButton from "../Buttons/WatchlistButton";
+import Loader from "../Buttons/Loader";
 
 const AiringTodaySlider = () => {
   const [shows, setShows] = useState([]);
+  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     fetchShows();
   }, []);
 
   const fetchShows = () => {
+    setIsPending(true);
     fetch(
       `https://api.themoviedb.org/3/tv/airing_today?language=en-US&page=1&api_key=${process.env.REACT_APP_API_KEY}`
     )
@@ -21,7 +23,10 @@ const AiringTodaySlider = () => {
       .then((data) => {
         setShows(data.results);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => console.log(err.message))
+      .finally(() => {
+        setIsPending(false);
+      });
   };
 
   const settings = {
@@ -36,30 +41,34 @@ const AiringTodaySlider = () => {
   return (
     <>
       <div className="tag">
-        <h1>Airing Today TV Shows</h1>
+        <h1 className="text-3xl font-bold text-white">Airing Today TV Shows</h1>
       </div>
-      <div>
+      <div className="relative">
+        {isPending && <Loader />}
         <Slider {...settings}>
           {shows.map((show) => (
-            <div key={show.id}>
+            <div key={show.id} className="focus:outline-none">
               <Link to={`/tv/${show.id}`}>
-                <figure className="relative overflow-hidden">
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500/${show.poster_path}`}
-                    alt={show.name}
-                    className="rounded-lg h-[350px] hover:scale-[1.3] transition ease-in-out hover:duration-500"
-                  />
-                  
-                </figure>
-                <p>{show.name}</p>
+                <img
+                  src={`https://image.tmdb.org/t/p/w500/${show.poster_path}`}
+                  alt={show.name}
+                  className="rounded-lg h-[350px] object-cover hover:scale-105 transition duration-300"
+                />
               </Link>
-              <FavoriteButton movieId={show.id} media_type={'tv'}/>
-              <WatchListButton movieId={show.id} media_type={'tv'}/>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 to-transparent p-4">
+                <Link to={`/tv/${show.id}`}>
+                  <h2 className="text-white font-semibold">{show.name}</h2>
+                </Link>
+                <div className="flex justify-center mt-2">
+                  <FavoriteButton movieId={show.id} media_type="tv" />
+                  <WatchListButton movieId={show.id} media_type="tv" />
+                </div>
+              </div>
             </div>
           ))}
         </Slider>
-        <div className="text-center mt-4">
-          <Link className="font-bold" to="/airing-today">
+        <div className="absolute bottom-4 right-4">
+          <Link className="text-white font-bold" to="/airing-today">
             See All
           </Link>
         </div>

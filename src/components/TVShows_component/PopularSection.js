@@ -1,14 +1,12 @@
-// PopularSlider.js
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-import FavoriteButton from "../Buttons/FavoritesButton";
-import WatchListButton from "../Buttons/WatchlistButton";
+// import FavoriteButton from "../Buttons/FavoritesButton";
+// import WatchListButton from "../Buttons/WatchlistButton";
 
 const PopularSlider = () => {
   const [shows, setShows] = useState([]);
-  const history = useHistory();
 
   useEffect(() => {
     fetchShows();
@@ -35,36 +33,37 @@ const PopularSlider = () => {
   };
 
   return (
-    <>
-      <div className="tag">
-        <h1>Popular TV Shows</h1>
-      </div>
-      <div>
+    <div className="bg-gray-900 py-8">
+      <div className="container mx-auto px-4">
+        <h1 className="text-4xl font-bold text-white mb-8">Popular TV Shows</h1>
         <Slider {...settings}>
           {shows.map((show) => (
-            <div key={show.id}>
+            <div key={show.id} className="group rounded-lg overflow-hidden relative">
               <Link to={`/tv/${show.id}`}>
-                <figure className="relative overflow-hidden">
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500/${show.poster_path}`}
-                    alt={show.name}
-                    className="rounded-lg h-[350px] hover:scale-[1.3] transition ease-in-out hover:duration-500"
-                  />
-                </figure>
-                <p>{show.name}</p>
+                <img
+                  src={`https://image.tmdb.org/t/p/w500/${show.poster_path}`}
+                  alt={show.name}
+                  className="w-full h-auto rounded-lg transition-transform transform hover:scale-105 duration-300 group-hover:brightness-90"
+                />
+                <div className="absolute inset-0 bg-black opacity-0 hover:opacity-50 transition-opacity duration-300"></div>
+                <div className="absolute bottom-0 left-0 p-4 w-full text-white text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-lg font-semibold">{show.name}</p>
+                </div>
               </Link>
-              <FavoriteButton movieId={show.id} media_type={'tv'}/>
-              <WatchListButton movieId={show.id} media_type={'tv'}/>
+              {/* <div className="absolute top-2 right-2 z-10">
+                <FavoriteButton movieId={show.id} media_type={'tv'} />
+                <WatchListButton movieId={show.id} media_type={'tv'} />
+              </div> */}
             </div>
           ))}
         </Slider>
-        <div className="text-center mt-4">
-          <Link className="font-bold" to="/popular-tv-shows">
+        <div className="text-center mt-8">
+          <Link className="font-bold text-white hover:underline" to="/popular-tv-shows">
             See All
           </Link>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

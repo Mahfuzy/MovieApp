@@ -148,6 +148,13 @@ const Navbar = () => {
             {user ? (
               <>
                 <li>
+                <SignOut onClick={closeMobileMenu} />
+              </li>
+
+              </>
+            ) : (
+              <>
+              <li>
                   <Link to="/login" onClick={closeMobileMenu}>
                     Login
                   </Link>
@@ -157,11 +164,8 @@ const Navbar = () => {
                     Sign Up
                   </Link>
                 </li>
+              
               </>
-            ) : (
-              <li>
-                <SignOut onClick={closeMobileMenu} />
-              </li>
             )}
             <li>
               <Link

@@ -4,42 +4,19 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 
-.pop-out {
-    transform: scale(1.1); /* You can adjust the scale factor as needed */
-    transition: transform 0.3s ease-in-out; /* Add transition for smooth animation */
-}
 
-
-.loader-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 999;
-}
-
+/* Loader styles */
 .loader {
-    width: 50px;
-    height: 50px;
-    aspect-ratio: 1;
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
     border-radius: 50%;
-    background: #514b82;
-    -webkit-mask:
-      repeating-conic-gradient(#0000 0deg,#000 1deg 70deg,#0000 71deg 90deg),
-      radial-gradient(farthest-side,#0000 calc(100% - var(--b) - 1px),#000 calc(100% - var(--b)));
-    -webkit-mask-composite: destination-in;
-            mask-composite: intersect;
-    animation: rotateLoader 2s infinite;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
 }
 
-@keyframes rotateLoader {
-    to {
-        transform: rotate(1turn);
-    }
-}
-
-.active-slide img {
-    transform: scale(1.1); /* Example transformation */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 

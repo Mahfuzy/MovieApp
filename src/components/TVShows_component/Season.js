@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import Loader from '../Buttons/Loader'; // Importing the Loader component
 
 const Season = () => {
   const { id, seasonNumber } = useParams();
@@ -50,7 +51,7 @@ const Season = () => {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-4">Episodes of Season {seasonNumber}</h1>
       {loading ? (
-        <p>Loading...</p>
+        <Loader /> // Display the loader while loading
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : (
