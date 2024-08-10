@@ -35,7 +35,7 @@ function App() {
         <Navbar/>
         <div className="content">
           <Switch>
-            <Route exact path='/' component={Home} />
+            <Route exact path='/MoviesApp' component={Home} />
             <Route exact path='/login' component={SignIn} />
             <Route exact path='/signup' component={SignUp} />
             <Route exact path='/reset-password' component={PasswordResetForm} />
