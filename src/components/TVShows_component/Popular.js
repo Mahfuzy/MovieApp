@@ -10,23 +10,22 @@ const PopularTVShows = () => {
     const [isPending, setIsPending] = useState(false);
 
     useEffect(() => {
+        const fetchPopularTVShows = () => {
+            setIsPending(true);
+            fetch(`https://api.themoviedb.org/3/tv/popular?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
+                .then(res => res.json())
+                .then(data => {
+                    setTVShows(data.results);
+                })
+                .catch(error => console.error('Error fetching popular TV shows:', error))
+                .finally(() => {
+                    setTimeout(() => {
+                        setIsPending(false);
+                    }, 100);
+                });
+        };
         fetchPopularTVShows();
     }, [page]);
-
-    const fetchPopularTVShows = () => {
-        setIsPending(true);
-        fetch(`https://api.themoviedb.org/3/tv/popular?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
-            .then(res => res.json())
-            .then(data => {
-                setTVShows(data.results);
-            })
-            .catch(error => console.error('Error fetching popular TV shows:', error))
-            .finally(() => {
-                setTimeout(() => {
-                    setIsPending(false);
-                }, 100);
-            });
-    };
     
     const prevPage = () => {
         setPage(page - 1);

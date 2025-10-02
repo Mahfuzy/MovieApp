@@ -11,26 +11,25 @@ const CategoryDetails = () => {
 
     useEffect(() => {
         setLoading(true);
+        const fetchItems = (category) => {
+            fetch(`https://api.themoviedb.org/3/discover/${category}?with_genres=${genre}&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
+                .then(response => response.json())
+                .then((data) => {
+                    if (category === 'movie') {
+                        setMovieItems(data.results);
+                    } else {
+                        setTvItems(data.results);
+                    }
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.error('Error fetching data:', error);
+                    setLoading(false);
+                });
+        };
         fetchItems('movie');
         fetchItems('tv');
     }, [genre, page]); // Listen for changes in genre and page
-
-    const fetchItems = (category) => {
-        fetch(`https://api.themoviedb.org/3/discover/${category}?with_genres=${genre}&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
-            .then(response => response.json())
-            .then((data) => {
-                if (category === 'movie') {
-                    setMovieItems(data.results);
-                } else {
-                    setTvItems(data.results);
-                }
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error('Error fetching data:', error);
-                setLoading(false);
-            });
-    };
 
     const prevPage = () => {
         setPage(page - 1);

@@ -11,29 +11,28 @@ const NowPlayingMovies = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        const fetchNowPlayingMovies = () => {
+            setIsPending(true);
+            fetch(`https://api.themoviedb.org/3/movie/now_playing?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Failed to fetch now playing movies');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    setMovies(data.results);
+                })
+                .catch(error => {
+                    console.error('Error fetching now playing movies:', error);
+                    setError('Failed to fetch now playing movies. Please try again later.');
+                })
+                .finally(() => {
+                    setIsPending(false);
+                });
+        };
         fetchNowPlayingMovies();
     }, [page]);
-
-    const fetchNowPlayingMovies = () => {
-        setIsPending(true);
-        fetch(`https://api.themoviedb.org/3/movie/now_playing?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Failed to fetch now playing movies');
-                }
-                return res.json();
-            })
-            .then(data => {
-                setMovies(data.results);
-            })
-            .catch(error => {
-                console.error('Error fetching now playing movies:', error);
-                setError('Failed to fetch now playing movies. Please try again later.');
-            })
-            .finally(() => {
-                setIsPending(false);
-            });
-    };
     
     const prevPage = () => {
         setPage(page - 1);

@@ -10,21 +10,20 @@ const OnAirTVShows = () => {
     const [isPending, setIsPending] = useState(false);
 
     useEffect(() => {
+        const fetchOnAirTVShows = () => {
+            setIsPending(true);
+            fetch(`https://api.themoviedb.org/3/tv/on_the_air?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
+                .then(res => res.json())
+                .then(data => {
+                    setTVShows(data.results);
+                })
+                .catch(error => console.error('Error fetching on air TV shows:', error))
+                .finally(() => {
+                    setIsPending(false);
+                });
+        };
         fetchOnAirTVShows();
     }, [page]);
-
-    const fetchOnAirTVShows = () => {
-        setIsPending(true);
-        fetch(`https://api.themoviedb.org/3/tv/on_the_air?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
-            .then(res => res.json())
-            .then(data => {
-                setTVShows(data.results);
-            })
-            .catch(error => console.error('Error fetching on air TV shows:', error))
-            .finally(() => {
-                setIsPending(false);
-            });
-    };
     
     const prevPage = () => {
         setPage(page - 1);

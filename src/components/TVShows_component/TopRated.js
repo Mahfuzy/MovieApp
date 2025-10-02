@@ -9,24 +9,23 @@ const TopRatedTVShows = () => {
     const [isPending, setIsPending] = useState(false);
 
     useEffect(() => {
+        const fetchTopRatedTVShows = () => {
+            setIsPending(true);
+            fetch(`https://api.themoviedb.org/3/tv/top_rated?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setTVShows(data.results);
+                })
+                .catch(error => console.error('Error fetching top rated TV shows:', error))
+                .finally(() => {
+                    setTimeout(() => {
+                        setIsPending(false);
+                    }, 100);
+                });
+        };
         fetchTopRatedTVShows();
     }, [page]);
-
-    const fetchTopRatedTVShows = () => {
-        setIsPending(true);
-        fetch(`https://api.themoviedb.org/3/tv/top_rated?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                setTVShows(data.results);
-            })
-            .catch(error => console.error('Error fetching top rated TV shows:', error))
-            .finally(() => {
-                setTimeout(() => {
-                    setIsPending(false);
-                }, 100);
-            });
-    };
 
     const prevPage = () => {
         if (page > 1) {

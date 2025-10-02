@@ -11,31 +11,30 @@ const TopRatedMovies = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        const fetchTopRatedMovies = () => {
+            setIsPending(true);
+            setError(null);
+
+            fetch(`https://api.themoviedb.org/3/movie/top_rated?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Failed to fetch top rated movies');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    setMovies(data.results);
+                })
+                .catch(error => {
+                    console.error('Error fetching top rated movies:', error);
+                    setError('Failed to fetch top rated movies. Please try again later.');
+                })
+                .finally(() => {
+                    setIsPending(false);
+                });
+        };
         fetchTopRatedMovies();
     }, [page]);
-
-    const fetchTopRatedMovies = () => {
-        setIsPending(true);
-        setError(null);
-
-        fetch(`https://api.themoviedb.org/3/movie/top_rated?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Failed to fetch top rated movies');
-                }
-                return res.json();
-            })
-            .then(data => {
-                setMovies(data.results);
-            })
-            .catch(error => {
-                console.error('Error fetching top rated movies:', error);
-                setError('Failed to fetch top rated movies. Please try again later.');
-            })
-            .finally(() => {
-                setIsPending(false);
-            });
-    };
     
     const prevPage = () => {
         setPage(page - 1);

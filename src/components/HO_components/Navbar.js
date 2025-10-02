@@ -4,7 +4,6 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import Search from '../HO_components/SearchBar';
 
 const Navbar = () => {
-  const user = null;
   const location = useLocation();
   const history = useHistory();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

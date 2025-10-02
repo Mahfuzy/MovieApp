@@ -11,31 +11,30 @@ const UpcomingMovies = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        const fetchUpcomingMovies = () => {
+            setIsPending(true);
+            setError(null);
+
+            fetch(`https://api.themoviedb.org/3/movie/upcoming?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Failed to fetch upcoming movies');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    setMovies(data.results);
+                })
+                .catch(error => {
+                    console.error('Error fetching upcoming movies:', error);
+                    setError('Failed to fetch upcoming movies. Please try again later.');
+                })
+                .finally(() => {
+                    setIsPending(false);
+                });
+        };
         fetchUpcomingMovies();
     }, [page]);
-
-    const fetchUpcomingMovies = () => {
-        setIsPending(true);
-        setError(null); // Reset error state before fetching
-
-        fetch(`https://api.themoviedb.org/3/movie/upcoming?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Failed to fetch upcoming movies');
-                }
-                return res.json();
-            })
-            .then(data => {
-                setMovies(data.results);
-            })
-            .catch(error => {
-                console.error('Error fetching upcoming movies:', error);
-                setError('Failed to fetch upcoming movies. Please try again later.');
-            })
-            .finally(() => {
-                setIsPending(false);
-            });
-    };
     
     const prevPage = () => {
         setPage(page - 1);
