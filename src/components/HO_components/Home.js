@@ -9,6 +9,16 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const Home = () => {
+    if (!process.env.REACT_APP_API_KEY) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white p-6">
+                <div className="max-w-lg text-center">
+                    <h1 className="text-2xl font-bold mb-2">Configuration required</h1>
+                    <p className="opacity-80">REACT_APP_API_KEY is not set. Add it in your deployment environment and redeploy.</p>
+                </div>
+            </div>
+        );
+    }
     const [movies, setMovies] = useState([]);
     const [backgroundImage, setBackgroundImage] = useState('');
 
