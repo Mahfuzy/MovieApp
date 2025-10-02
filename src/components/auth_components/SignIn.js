@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { auth } from "./Firebase";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -24,8 +23,7 @@ const SignIn = () => {
     e.preventDefault();
 
     try {
-      await auth.signInWithEmailAndPassword(email, password);
-      console.log("Logged in: ", auth.currentUser);
+      // Auth removed
       history.push('/');
     } catch (error) {
       let errorMessage;

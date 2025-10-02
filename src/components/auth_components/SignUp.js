@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { auth } from "./Firebase";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -46,11 +45,7 @@ const SignUp = () => {
     }
 
     try {
-      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-      await userCredential.user.updateProfile({
-        displayName: username
-      });
-      console.log("user signed up: ", userCredential.user);
+      // Auth removed
       history.push("/");
     } catch (error) {
       console.error('Sign up error: ', error.message);

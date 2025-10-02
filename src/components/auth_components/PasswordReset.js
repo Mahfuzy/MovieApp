@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { auth } from "./Firebase";
 
 const PasswordResetForm = () => {
     const [email, setEmail] = useState("");
@@ -7,12 +6,8 @@ const PasswordResetForm = () => {
 
     const handleReset = async (e) => {
         e.preventDefault();
-        try {
-            await auth.sendPasswordResetEmail(email);
-            setResetSent(true);
-        } catch (error) {
-            console.error('Error sending password reset email:', error.message);
-        }
+        // Auth removed
+        setResetSent(true);
     }
 
     return (
