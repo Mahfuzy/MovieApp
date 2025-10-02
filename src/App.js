@@ -30,7 +30,7 @@ import Episode from './components/TVShows_component/Episode';
 
 function App() {
   return (
-    <Router>
+    <Router basename="MovieApp">
       <div className="App">
         <Navbar/>
         <div className="content">
