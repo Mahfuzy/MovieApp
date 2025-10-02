@@ -11,32 +11,31 @@ const PopularMovies = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        const fetchPopularMovies = () => {
+            setIsPending(true);
+            setError(null);
+
+            fetch(`https://api.themoviedb.org/3/movie/popular?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Failed to fetch popular movies');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    setMovies(data.results);
+                })
+                .catch(error => {
+                    console.error('Error fetching popular movies:', error);
+                    setError('Failed to fetch popular movies. Please try again later.');
+                })
+                .finally(() => {
+                    setIsPending(false);
+                });
+        };
         fetchPopularMovies();
     }, [page]);
-
-    const fetchPopularMovies = () => {
-        setIsPending(true);
-        setError(null);
-
-        fetch(`https://api.themoviedb.org/3/movie/popular?&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Failed to fetch popular movies');
-                }
-                return res.json();
-            })
-            .then(data => {
-                console.log(data);
-                setMovies(data.results);
-            })
-            .catch(error => {
-                console.error('Error fetching popular movies:', error);
-                setError('Failed to fetch popular movies. Please try again later.');
-            })
-            .finally(() => {
-                setIsPending(false);
-            });
-    };
     
     const prevPage = () => {
         setPage(page - 1);
