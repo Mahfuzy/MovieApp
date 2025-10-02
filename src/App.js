@@ -8,7 +8,6 @@ import Activate from './components/auth_components/Activate';
 import MoviesDetails from './components/Movies_component/MoviesDetails';
 import Categories from './components/category_component/Category';
 import CategoryDetails from './components/category_component/CategoryDetails';
-import PrivateRoute from './components/auth_components/PrivateRoute';
 import TvShowsDetails from './components/TVShows_component/TvShowsDetails';
 import Navbar from './components/HO_components/Navbar';
 import PopularMovies from './components/Movies_component/Popular';
@@ -26,11 +25,9 @@ import SearchResults from './components/HO_components/SearchResults';
 import Season from './components/TVShows_component/Season';
 import Episode from './components/TVShows_component/Episode';
 
-
-
 function App() {
   return (
-    <Router basename="MovieApp">
+    <Router basename="/MovieApp">
       <div className="App">
         <Navbar/>
         <div className="content">
@@ -47,30 +44,35 @@ function App() {
             <Route exact path='/categories/:genre' component={CategoryDetails} />
             <Route path="/search/:query" component={SearchResults} />
             
-            {/* Private routes */}
-            
-            <PrivateRoute exact path="/movie/:id" component={MoviesDetails} />
-            <PrivateRoute exact path="/tv/:id" component={TvShowsDetails} />
-            <PrivateRoute exact path='/popular/' component={PopularMovies}/>
-            <PrivateRoute exact path='/toprated/' component={TopRatedMovies}/>
-            <PrivateRoute exact path='/upcoming/' component={UpcomingMovies}/>
-            <PrivateRoute exact path='/nowplaying/' component={NowPlayingMovies}/>
-            <PrivateRoute exact path='/popular-tv-shows' component={PopularTVShows}/>
-            <PrivateRoute exact path='/on-air' component={OnAirTVShows}/>
-            <PrivateRoute exact path='/airing-today' component={AiringTodayTVShows}/>
-            <PrivateRoute exact path='/top-rated' component={TopRatedTVShows}/>
-            <PrivateRoute exact path='/favorites' component={FavoritesPage}/>
-            <PrivateRoute exact path='/watchlist' component={WatchListPage}/>
-            <PrivateRoute exact path="/tv/:id/season/:seasonNumber" component={Season}/>
-            <PrivateRoute exact path="/tv/:id/season/:seasonNumber/episode/:episodeNumber" component={Episode}/>
-           
+            {/* Movie + TV details */}
+            <Route exact path="/movie/:id" component={MoviesDetails} />
+            <Route exact path="/tv/:id" component={TvShowsDetails} />
+
+            {/* Movies list pages */}
+            <Route exact path='/popular/' component={PopularMovies}/>
+            <Route exact path='/toprated/' component={TopRatedMovies}/>
+            <Route exact path='/upcoming/' component={UpcomingMovies}/>
+            <Route exact path='/nowplaying/' component={NowPlayingMovies}/>
+
+            {/* TV shows list pages */}
+            <Route exact path='/popular-tv-shows' component={PopularTVShows}/>
+            <Route exact path='/on-air' component={OnAirTVShows}/>
+            <Route exact path='/airing-today' component={AiringTodayTVShows}/>
+            <Route exact path='/top-rated' component={TopRatedTVShows}/>
+
+            {/* User pages */}
+            <Route exact path='/favorites' component={FavoritesPage}/>
+            <Route exact path='/watchlist' component={WatchListPage}/>
+
+            {/* Seasons + Episodes */}
+            <Route exact path="/tv/:id/season/:seasonNumber" component={Season}/>
+            <Route exact path="/tv/:id/season/:seasonNumber/episode/:episodeNumber" component={Episode}/>
 
             {/* Redirect to home for unknown routes */}
             <Route component={Home} />
           </Switch>
         </div>
-        <div className="Footer">
-        </div>
+        <div className="Footer"></div>
       </div>
     </Router>
   );
