@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link } from 'react-router-dom';
 
 const FavoritesPage = () => {
     const [favoriteMovies, setFavoriteMovies] = useState([]);
@@ -11,27 +11,19 @@ const FavoritesPage = () => {
     }, []);
 
     const fetchFavoriteMovies = () => {
-        fetch(`https://api.themoviedb.org/3/account/21231805/favorite/movies?api_key=${process.env.REACT_APP_API_KEY}`, {
-            headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YTU5MDJkNzQ1M2JkOGYzMGM1Yjk4ODFkMGZjNmFjYSIsInN1YiI6IjY2MjdjYmE0MTc2YTk0MDE3ZjgyMGY1MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gvOGt5ts31M9wuYa4RprICQOUtMoezvGVMPa8I7z_Ho'
-            }
-        })
+        fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}`)
         .then(response => response.json())
         .then(data => {
-            setFavoriteMovies(data.results);
+            setFavoriteMovies(Array.isArray(data.results) ? data.results : []);
         })
         .catch(error => console.error('Error fetching favorite movies:', error));
     };
 
     const fetchFavoriteTVShows = () => {
-        fetch(`https://api.themoviedb.org/3/account/21231805/favorite/tv?api_key=${process.env.REACT_APP_API_KEY}`, {
-            headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YTU5MDJkNzQ1M2JkOGYzMGM1Yjk4ODFkMGZjNmFjYSIsInN1YiI6IjY2MjdjYmE0MTc2YTk0MDE3ZjgyMGY1MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gvOGt5ts31M9wuYa4RprICQOUtMoezvGVMPa8I7z_Ho'
-            }
-        })
+        fetch(`https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}`)
         .then(response => response.json())
         .then(data => {
-            setFavoriteTVShows(data.results);
+            setFavoriteTVShows(Array.isArray(data.results) ? data.results : []);
         })
         .catch(error => console.error('Error fetching favorite TV shows:', error));
     };

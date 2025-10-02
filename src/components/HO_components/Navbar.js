@@ -1,11 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
-import AuthChecker from "../auth_components/AuthChecker";
-import SignOut from "../auth_components/SignOut";
+// Auth removed for public access
 import Search from '../HO_components/SearchBar';
 
 const Navbar = () => {
-  const user = AuthChecker();
+  const user = null;
   const location = useLocation();
   const history = useHistory();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -75,24 +74,7 @@ const Navbar = () => {
                 </Link>
               </li>
               {/* Adjusted conditional rendering */}
-              {user ? (
-                <li>
-                  <SignOut />
-                </li>
-              ) : (
-                <>
-                  <li>
-                    <Link to="/login" >
-                      Login
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/signup" >
-                      Sign Up
-                    </Link>
-                  </li>
-                </>
-              )}
+              {/* Login/Signup hidden for public access */}
             </ul>
             {/* Include Search component for big screens */}
             <Search onSearchSubmit={handleSearchSubmit} />
@@ -145,28 +127,7 @@ const Navbar = () => {
               </Link>
             </li>
             {/* Adjusted conditional rendering */}
-            {user ? (
-              <>
-                <li>
-                <SignOut onClick={closeMobileMenu} />
-              </li>
-
-              </>
-            ) : (
-              <>
-              <li>
-                  <Link to="/login" onClick={closeMobileMenu}>
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/signup" onClick={closeMobileMenu}>
-                    Sign Up
-                  </Link>
-                </li>
-              
-              </>
-            )}
+            {/* Login/Signup hidden for public access */}
             <li>
               <Link
                 to={location.pathname === '/' ? '/tv-shows' : '/'}

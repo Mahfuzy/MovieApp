@@ -11,27 +11,19 @@ const WatchListPage = () => {
     }, []);
 
     const fetchWatchListMovies = () => {
-        fetch(`https://api.themoviedb.org/3/account/21231805/watchlist/movies?api_key=${process.env.REACT_APP_API_KEY}`, {
-            headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YTU5MDJkNzQ1M2JkOGYzMGM1Yjk4ODFkMGZjNmFjYSIsInN1YiI6IjY2MjdjYmE0MTc2YTk0MDE3ZjgyMGY1MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gvOGt5ts31M9wuYa4RprICQOUtMoezvGVMPa8I7z_Ho'
-            }
-        })
+        fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}`)
         .then(response => response.json())
         .then(data => {
-            setWatchListMovies(data.results);
+            setWatchListMovies(Array.isArray(data.results) ? data.results : []);
         })
         .catch(error => console.error('Error fetching watchlist movies:', error));
     };
 
     const fetchWatchListTVShows = () => {
-        fetch(`https://api.themoviedb.org/3/account/21231805/watchlist/tv?api_key=${process.env.REACT_APP_API_KEY}`, {
-            headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YTU5MDJkNzQ1M2JkOGYzMGM1Yjk4ODFkMGZjNmFjYSIsInN1YiI6IjY2MjdjYmE0MTc2YTk0MDE3ZjgyMGY1MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gvOGt5ts31M9wuYa4RprICQOUtMoezvGVMPa8I7z_Ho'
-            }
-        })
+        fetch(`https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_KEY}`)
         .then(response => response.json())
         .then(data => {
-            setWatchListTVShows(data.results);
+            setWatchListTVShows(Array.isArray(data.results) ? data.results : []);
         })
         .catch(error => console.error('Error fetching watchlist TV shows:', error));
     };

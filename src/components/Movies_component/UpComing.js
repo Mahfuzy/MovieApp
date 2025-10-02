@@ -56,8 +56,8 @@ const UpcomingMovies = () => {
                             <div key={movie.id}>
                                  <Link to={`/movie/${movie.id}`} key={movie.id}>
                                     <li className='m-2 rounded-lg'>
-                                        <figure className='relative overflow-hidden'>
-                                            <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} className='w-[278px] rounded-lg h-[300px] hover:scale-[1.3] transition ease-in-out hover:duration-500'  />
+                                    <figure className='relative overflow-hidden'>
+                                        <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} className='w-full rounded-lg h-auto aspect-[2/3] object-cover hover:scale-[1.05] transition ease-in-out duration-300'  />
                                         </figure>
                                         <p  className='block mt-2 text-center font-bold'>{movie.title}</p>
                                     </li>

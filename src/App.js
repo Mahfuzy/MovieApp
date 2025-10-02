@@ -1,5 +1,5 @@
 import Home from './components/HO_components/Home';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import SignIn from './components/auth_components/SignIn';
 import SignUp from './components/auth_components/SignUp';
 import PasswordResetForm from './components/auth_components/PasswordReset';
@@ -27,7 +27,7 @@ import Episode from './components/TVShows_component/Episode';
 
 function App() {
   return (
-    <Router basename="/MovieApp">
+    <Router>
       <div className="App">
         <Navbar/>
         <div className="content">
@@ -38,7 +38,7 @@ function App() {
             <Route exact path='/reset-password' component={PasswordResetForm} />
             <Route exact path='/password/reset/confirm/:uid/:token' component={ResetPasswordConfirm} />
             <Route exact path='/activate/:uid/:token' component={Activate} />
-            <Route exact path='/tv-shows/' component={TvShows}/>
+            <Route exact path='/tv-shows' component={TvShows}/>
   
             <Route exact path='/categories' component={Categories} />
             <Route exact path='/categories/:genre' component={CategoryDetails} />
@@ -49,10 +49,10 @@ function App() {
             <Route exact path="/tv/:id" component={TvShowsDetails} />
 
             {/* Movies list pages */}
-            <Route exact path='/popular/' component={PopularMovies}/>
-            <Route exact path='/toprated/' component={TopRatedMovies}/>
-            <Route exact path='/upcoming/' component={UpcomingMovies}/>
-            <Route exact path='/nowplaying/' component={NowPlayingMovies}/>
+            <Route exact path='/popular' component={PopularMovies}/>
+            <Route exact path='/toprated' component={TopRatedMovies}/>
+            <Route exact path='/upcoming' component={UpcomingMovies}/>
+            <Route exact path='/nowplaying' component={NowPlayingMovies}/>
 
             {/* TV shows list pages */}
             <Route exact path='/popular-tv-shows' component={PopularTVShows}/>

@@ -38,11 +38,16 @@ const AiringTodaySlider = () => {
 
   const settings = {
     infinite: true,
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     lazyLoad: true,
     autoplay: true,
     autoplaySpeed: 3000,
+    responsive: [
+      { breakpoint: 640, settings: { slidesToShow: 1 } },
+      { breakpoint: 768, settings: { slidesToShow: 2 } },
+      { breakpoint: 1024, settings: { slidesToShow: 3 } },
+    ],
   };
 
   return (
@@ -59,7 +64,7 @@ const AiringTodaySlider = () => {
                 <img
                   src={`https://image.tmdb.org/t/p/w500/${show.poster_path}`}
                   alt={show.name}
-                  className="rounded-lg h-[350px] object-cover hover:scale-105 transition duration-300"
+                  className="rounded-lg w-full h-auto aspect-[2/3] object-cover hover:scale-105 transition duration-300"
                 />
               </Link>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 to-transparent p-4">
