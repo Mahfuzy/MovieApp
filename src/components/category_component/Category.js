@@ -39,8 +39,8 @@ const Categories = () => {
     }, []);
 
     return (
-        <div className="bg-gray-900 min-h-screen text-white">
-            <div className="container mx-auto px-4 py-8">
+        <div className="bg-gray-900 min-h-screen text-white pt-24 pb-8">
+            <div className="container mx-auto px-4">
                 {loading ? (
                     <Loader />
                 ) : error ? (

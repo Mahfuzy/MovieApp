@@ -49,7 +49,7 @@ const CategoryDetails = () => {
     };
 
     return (
-        <div className="text-white bg-slate-900 min-h-screen">
+        <div className="text-white bg-slate-900 min-h-screen pt-24">
             {loading ? (
                 <Loader />
             ) : error ? (
