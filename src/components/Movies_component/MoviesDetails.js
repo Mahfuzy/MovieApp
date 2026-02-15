@@ -73,7 +73,7 @@ const DetailsPage = () => {
         return <div className="text-white text-center min-h-screen bg-gray-900 pt-24">Error: {error}</div>;
     }
 
-    const ratingPercent = Math.round((item?.vote_average || 0) * 10);
+
 
 
     return (

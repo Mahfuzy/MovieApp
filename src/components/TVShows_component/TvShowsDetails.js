@@ -76,7 +76,7 @@ const TVDetailsPage = () => {
         return <div className="text-white text-center min-h-screen bg-gray-900 pt-24">Error: {error}</div>;
     }
 
-    const ratingPercent = Math.round((item?.vote_average || 0) * 10);
+
 
     const statusColor = item?.status === 'Returning Series' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400';
 
