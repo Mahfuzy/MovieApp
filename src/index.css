@@ -7,8 +7,10 @@
 
 /* Loader styles */
 .loader {
-    border: 8px solid #f3f3f3; /* Light grey */
-    border-top: 8px solid #3498db; /* Blue */
+    border: 8px solid #f3f3f3;
+    /* Light grey */
+    border-top: 8px solid #3498db;
+    /* Blue */
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -16,8 +18,13 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes fadeSlideUp {
@@ -25,6 +32,7 @@
         opacity: 0;
         transform: translateY(16px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -40,6 +48,36 @@
 }
 
 /* Discover slider - emphasize center slide */
-.slick-center > div > a > div {
+.slick-center>div>a>div {
     opacity: 1 !important;
+}
+
+/* Slick Carousel Customizations */
+.slick-prev,
+.slick-next {
+    z-index: 10;
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.slick-prev:before,
+.slick-next:before {
+    font-size: 30px !important;
+}
+
+.slick-prev {
+    left: 10px !important;
+}
+
+.slick-next {
+    right: 10px !important;
+}
+
+/* Hide arrows on mobile */
+@media (max-width: 768px) {
+
+    .slick-prev,
+    .slick-next {
+        display: none !important;
+    }
 }
