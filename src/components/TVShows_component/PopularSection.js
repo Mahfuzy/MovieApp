@@ -2,67 +2,55 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-// import FavoriteButton from "../Buttons/FavoritesButton";
-// import WatchListButton from "../Buttons/WatchlistButton";
 
 const PopularSlider = () => {
   const [shows, setShows] = useState([]);
 
   useEffect(() => {
-    fetchShows();
+    fetch(`https://api.themoviedb.org/3/tv/popular?language=en-US&page=1&api_key=${process.env.REACT_APP_API_KEY}`)
+      .then(res => { if (!res.ok) throw new Error("Failed to fetch"); return res.json(); })
+      .then(data => setShows(data.results))
+      .catch(err => console.error(err));
   }, []);
 
-  const fetchShows = () => {
-    fetch(
-      `https://api.themoviedb.org/3/tv/popular?language=en-US&page=1&api_key=${process.env.REACT_APP_API_KEY}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setShows(data.results);
-      })
-      .catch((err) => console.log(err.message));
-  };
-
   const settings = {
-    infinite: true,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    lazyLoad: true,
-    autoplay: true,
-    autoplaySpeed: 3000,
+    infinite: true, slidesToShow: 5, slidesToScroll: 2, autoplay: true, autoplaySpeed: 4000,
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 2 } },
+      { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 1 } },
+      { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+    ],
   };
 
   return (
-    <div className="bg-gray-900 py-8">
-      <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-white mb-8">Popular TV Shows</h1>
-        <Slider {...settings}>
-          {shows.map((show) => (
-            <div key={show.id} className="group rounded-lg overflow-hidden relative">
-              <Link to={`/tv/${show.id}`}>
-                <img
-                  src={`https://image.tmdb.org/t/p/w500/${show.poster_path}`}
-                  alt={show.name}
-                  className="w-full h-auto rounded-lg transition-transform transform hover:scale-105 duration-300 group-hover:brightness-90"
-                />
-                <div className="absolute inset-0 bg-black opacity-0 hover:opacity-50 transition-opacity duration-300"></div>
-                <div className="absolute bottom-0 left-0 p-4 w-full text-white text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-lg font-semibold">{show.name}</p>
-                </div>
-              </Link>
-              {/* <div className="absolute top-2 right-2 z-10">
-                <FavoriteButton movieId={show.id} media_type={'tv'} />
-                <WatchListButton movieId={show.id} media_type={'tv'} />
-              </div> */}
-            </div>
-          ))}
-        </Slider>
-        <div className="text-center mt-8">
-          <Link className="font-bold text-white hover:underline" to="/popular-tv-shows">
-            See All
-          </Link>
-        </div>
+    <div className="mb-10">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold text-white">Popular</h2>
+        <Link to="/popular-tv-shows" className="text-sm text-gray-400 hover:text-white transition">See All →</Link>
       </div>
+      <Slider {...settings}>
+        {shows.map(show => (
+          <div key={show.id} className="px-1.5">
+            <Link to={`/tv/${show.id}`} className="group block">
+              <div className="relative rounded-lg overflow-hidden bg-gray-800">
+                <img
+                  src={show.poster_path ? `https://image.tmdb.org/t/p/w342${show.poster_path}` : 'https://via.placeholder.com/342x513?text=No+Image'}
+                  alt={show.name}
+                  className="w-full aspect-[2/3] object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <p className="text-white text-sm font-medium truncate">{show.name}</p>
+                  <div className="flex items-center gap-1 text-xs text-gray-300 mt-0.5">
+                    <span className="text-yellow-400">★</span> {show.vote_average?.toFixed(1)}
+                    <span className="ml-1">{show.first_air_date?.slice(0, 4)}</span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
+        ))}
+      </Slider>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
-import Loader from '../Buttons/Loader'; // Import Loader component for loading indicator
+import Loader from '../Buttons/Loader';
 import 'slick-carousel/slick/slick.css';
 
 const PopularSlider = () => {
@@ -10,68 +10,54 @@ const PopularSlider = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchMovies();
+    fetch(`https://api.themoviedb.org/3/movie/popular?language=en-US&page=1&api_key=${process.env.REACT_APP_API_KEY}`)
+      .then(res => { if (!res.ok) throw new Error("Failed to fetch"); return res.json(); })
+      .then(data => setMovies(data.results))
+      .catch(err => setError(err.message))
+      .finally(() => setIsLoading(false));
   }, []);
 
-  const fetchMovies = () => {
-    setIsLoading(true);
-    setError(null);
-
-    fetch(`https://api.themoviedb.org/3/movie/popular?language=en-US&page=1&api_key=${process.env.REACT_APP_API_KEY}`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch popular movies');
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setMovies(data.results);
-      })
-      .catch((err) => {
-        console.error('Error fetching popular movies:', err);
-        setError('Failed to fetch popular movies. Please try again later.');
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
   const settings = {
-    infinite: true,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    lazyLoad: true,
-    autoplay: true,
-    autoplaySpeed: 3000,
+    infinite: true, slidesToShow: 5, slidesToScroll: 2, autoplay: true, autoplaySpeed: 4000,
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 2 } },
+      { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 1 } },
+      { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+    ],
   };
 
   return (
-    <>
-      <div className="tag">
-      <h1 className="text-3xl font-bold mb-4">Popular Movies</h1>
+    <div className="mb-10">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold text-white">Popular</h2>
+        <Link to="/popular" className="text-sm text-gray-400 hover:text-white transition">See All →</Link>
       </div>
-      <div>
-        {isLoading && <Loader />} {/* Display loader while loading */}
-        {error && <p className="text-red-500">{error}</p>} {/* Display error message if there's an error */}
-        {!isLoading && !error && (
-          <Slider {...settings}>
-            {movies.map((movie) => (
-              <div key={movie.id}>
-                <Link to={`movie/${movie.id}`}>
-                  <figure className="relative overflow-hidden">
-                    <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} className="rounded-lg h-auto hover:scale-[1.3] transition ease-in-out hover:duration-500" />
-                  </figure>
-                  <p>{movie.title}</p>
-                </Link>
-              </div>
-            ))}
-          </Slider>
-        )}
-        <div className="text-center mt-4">
-          <Link className="font-bold" to="/popular">See All</Link>
-        </div>
-      </div>
-    </>
+      {isLoading ? <Loader /> : error ? <p className="text-red-400 text-sm">{error}</p> : (
+        <Slider {...settings}>
+          {movies.map(movie => (
+            <div key={movie.id} className="px-1.5">
+              <Link to={`/movie/${movie.id}`} className="group block">
+                <div className="relative rounded-lg overflow-hidden bg-gray-800">
+                  <img
+                    src={movie.poster_path ? `https://image.tmdb.org/t/p/w342${movie.poster_path}` : 'https://via.placeholder.com/342x513?text=No+Image'}
+                    alt={movie.title}
+                    className="w-full aspect-[2/3] object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <p className="text-white text-sm font-medium truncate">{movie.title}</p>
+                    <div className="flex items-center gap-1 text-xs text-gray-300 mt-0.5">
+                      <span className="text-yellow-400">★</span> {movie.vote_average?.toFixed(1)}
+                      <span className="ml-1">{movie.release_date?.slice(0, 4)}</span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          ))}
+        </Slider>
+      )}
+    </div>
   );
 };
 

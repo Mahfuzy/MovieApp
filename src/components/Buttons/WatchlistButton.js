@@ -5,39 +5,61 @@ const WatchListButton = ({ media_type, movieId }) => {
   const [isWatchList, setIsWatchList] = useState(false);
 
   useEffect(() => {
-
-  }, [movieId]);
+    // Check current watchlist status on mount
+    const checkWatchlistStatus = async () => {
+      try {
+        const token = process.env.REACT_APP_TMDB_TOKEN;
+        if (!token) return;
+        const res = await fetch(
+          `https://api.themoviedb.org/3/account/${process.env.REACT_APP_TMDB_ACCOUNT_ID || '21231805'}/watchlist/${media_type === 'movie' ? 'movies' : 'tv'}?language=en-US&page=1&sort_by=created_at.asc`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        const found = data.results?.find((item) => item.id === movieId);
+        setIsWatchList(!!found);
+      } catch (err) {
+        // Silently fail — user just won't see initial state
+      }
+    };
+    checkWatchlistStatus();
+  }, [movieId, media_type]);
 
   const handleWatchListToggle = () => {
-    const url = `https://api.themoviedb.org/3/account/21231805/watchlist`;
+    const token = process.env.REACT_APP_TMDB_TOKEN;
+    if (!token) {
+      console.warn('REACT_APP_TMDB_TOKEN is not set.');
+      return;
+    }
+    const url = `https://api.themoviedb.org/3/account/${process.env.REACT_APP_TMDB_ACCOUNT_ID || '21231805'}/watchlist`;
     const payload = {
       media_type: media_type,
       media_id: movieId,
-      watchlist: !isWatchList // Toggle watchlist status
+      watchlist: !isWatchList,
     };
 
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YTU5MDJkNzQ1M2JkOGYzMGM1Yjk4ODFkMGZjNmFjYSIsInN1YiI6IjY2MjdjYmE0MTc2YTk0MDE3ZjgyMGY1MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gvOGt5ts31M9wuYa4RprICQOUtMoezvGVMPa8I7z_Ho'
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     };
 
     fetch(url, options)
-      .then(res => {
+      .then((res) => {
         if (!res.ok) {
           throw new Error('Failed to toggle watchlist');
         }
-        setIsWatchList(!isWatchList); // Update watchlist status locally
+        setIsWatchList(!isWatchList);
         return res.json();
       })
-      .then(json => {
-        console.log('Watchlist status toggled successfully:', json);
-        // You may handle additional logic here if needed
-      })
-      .catch(err => console.error('Error toggling watchlist:', err));
+      .catch((err) => console.error('Error toggling watchlist:', err));
   };
 
   return (

@@ -1,72 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import FavoriteButton from '../Buttons/FavoritesButton';
-import Loader from '../Buttons/Loader';
 import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import Loader from '../Buttons/Loader';
 
 const OnTheAirSlider = () => {
     const [shows, setShows] = useState([]);
-    const [isPending, setIsPending] = useState(false);
+    const [isPending, setIsPending] = useState(true);
 
     useEffect(() => {
-        fetchShows();
+        fetch(`https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1&api_key=${process.env.REACT_APP_API_KEY}`)
+            .then(res => { if (!res.ok) throw new Error("Failed to fetch"); return res.json(); })
+            .then(data => setShows(data.results))
+            .catch(err => console.error(err))
+            .finally(() => setIsPending(false));
     }, []);
 
-    const fetchShows = () => {
-        setIsPending(true);
-        fetch(`https://api.themoviedb.org/3/tv/on_the_air?language=en-US&page=1&api_key=${process.env.REACT_APP_API_KEY}`)
-            .then(res => res.json())
-            .then(data => {
-                setShows(data.results);
-            })
-            .catch(error => console.error('Error fetching on-the-air TV shows:', error))
-            .finally(() => {
-                setTimeout(() => {
-                    setIsPending(false);
-                }, 100);
-            });
-    };
-
     const settings = {
-        infinite: true,
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        lazyLoad: true,
-        autoplay: true,
-        autoplaySpeed: 3000,
+        infinite: true, slidesToShow: 5, slidesToScroll: 2, autoplay: true, autoplaySpeed: 4000,
+        responsive: [
+            { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 2 } },
+            { breakpoint: 768, settings: { slidesToShow: 2, slidesToScroll: 1 } },
+            { breakpoint: 480, settings: { slidesToShow: 1, slidesToScroll: 1 } },
+        ],
     };
 
     return (
-        <>
-            <div className="tag">
-                <h1 className="text-3xl font-bold">On The Air TV Shows</h1>
+        <div className="mb-10">
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-white">On The Air</h2>
+                <Link to="/on-air" className="text-sm text-gray-400 hover:text-white transition">See All →</Link>
             </div>
-            <div className="relative">
-                {isPending && <Loader />}
+            {isPending ? <Loader /> : (
                 <Slider {...settings}>
                     {shows.map(show => (
-                        <div key={show.id} className="relative">
-                            <Link to={`/tv/${show.id}`}>
-                                <img
-                                    src={`https://image.tmdb.org/t/p/w500/${show.poster_path}`}
-                                    alt={show.name}
-                                    className="rounded-lg w-full h-auto hover:scale-[1.1] transition duration-300"
-                                />
+                        <div key={show.id} className="px-1.5">
+                            <Link to={`/tv/${show.id}`} className="group block">
+                                <div className="relative rounded-lg overflow-hidden bg-gray-800">
+                                    <img
+                                        src={show.poster_path ? `https://image.tmdb.org/t/p/w342${show.poster_path}` : 'https://via.placeholder.com/342x513?text=No+Image'}
+                                        alt={show.name}
+                                        className="w-full aspect-[2/3] object-cover group-hover:scale-105 transition-transform duration-300"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                    <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                        <p className="text-white text-sm font-medium truncate">{show.name}</p>
+                                        <div className="flex items-center gap-1 text-xs text-gray-300 mt-0.5">
+                                            <span className="text-yellow-400">★</span> {show.vote_average?.toFixed(1)}
+                                            <span className="ml-1">{show.first_air_date?.slice(0, 4)}</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </Link>
-                            <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 px-4 py-2">
-                                <p className="text-white truncate">{show.name}</p>
-                            </div>
-                            {/* <div className="absolute top-2 right-2">
-                                <FavoriteButton movieId={show.id} media_type="tv" />
-                            </div> */}
                         </div>
                     ))}
                 </Slider>
-                <div className="absolute bottom-4 right-4">
-                    <Link to="/on-air" className="text-white font-bold hover:underline">See All</Link>
-                </div>
-            </div>
-        </>
+            )}
+        </div>
     );
 };
 

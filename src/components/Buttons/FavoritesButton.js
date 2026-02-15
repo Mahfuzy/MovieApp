@@ -5,39 +5,61 @@ const FavoriteButton = ({ media_type, movieId }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    
-  }, [movieId]);
+    // Check current favorite status on mount
+    const checkFavoriteStatus = async () => {
+      try {
+        const token = process.env.REACT_APP_TMDB_TOKEN;
+        if (!token) return;
+        const res = await fetch(
+          `https://api.themoviedb.org/3/account/${process.env.REACT_APP_TMDB_ACCOUNT_ID || '21231805'}/favorite/${media_type === 'movie' ? 'movies' : 'tv'}?language=en-US&page=1&sort_by=created_at.asc`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        const found = data.results?.find((item) => item.id === movieId);
+        setIsFavorite(!!found);
+      } catch (err) {
+        // Silently fail — user just won't see initial state
+      }
+    };
+    checkFavoriteStatus();
+  }, [movieId, media_type]);
 
   const handleFavoriteToggle = () => {
-    const url = `https://api.themoviedb.org/3/account/21231805/favorite`;
+    const token = process.env.REACT_APP_TMDB_TOKEN;
+    if (!token) {
+      console.warn('REACT_APP_TMDB_TOKEN is not set.');
+      return;
+    }
+    const url = `https://api.themoviedb.org/3/account/${process.env.REACT_APP_TMDB_ACCOUNT_ID || '21231805'}/favorite`;
     const payload = {
       media_type: media_type,
       media_id: movieId,
-      favorite: !isFavorite // Toggle favorite status
+      favorite: !isFavorite,
     };
 
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YTU5MDJkNzQ1M2JkOGYzMGM1Yjk4ODFkMGZjNmFjYSIsInN1YiI6IjY2MjdjYmE0MTc2YTk0MDE3ZjgyMGY1MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gvOGt5ts31M9wuYa4RprICQOUtMoezvGVMPa8I7z_Ho'
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     };
 
     fetch(url, options)
-      .then(res => {
+      .then((res) => {
         if (!res.ok) {
           throw new Error('Failed to toggle favorite');
         }
-        setIsFavorite(!isFavorite); // Update favorite status locally
+        setIsFavorite(!isFavorite);
         return res.json();
       })
-      .then(json => {
-        console.log('Favorite status toggled successfully:', json);
-        // You may handle additional logic here if needed
-      })
-      .catch(err => console.error('Error toggling favorite:', err));
+      .catch((err) => console.error('Error toggling favorite:', err));
   };
 
   return (
